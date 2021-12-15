@@ -24,7 +24,7 @@ public:
     ElementID get_id() const {return ID_;}
     ~Product();
     //TODO: w UML w klasie Package jest ten operator tylko nie wiem czy teraz czy na późniejszych etapach
-    //bo nie wiem jak miałby niby działać. Przypisać nowemu produktowi id starego produktu, po czym usunac stary? troche bez sensu
+    // bo nie wiem jak miałby niby działać. Przypisać nowemu produktowi id starego produktu, po czym usunac stary? troche bez sensu
 //    operator=(Product&& P)
 };
 
