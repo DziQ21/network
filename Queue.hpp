@@ -8,7 +8,9 @@
 #include <vector>
 #include "Product.hpp"
 
-class Queue {
+// Tak wygląda interfejs
+// uzupełnij to zgodnie z tym ale patrz na sam koniec dokumentu ->https://home.agh.edu.pl/~mdig/dokuwiki/doku.php?id=teaching:programming:soft-dev:topics:net-simulation:part_storage
+class IPackageStockpile {
 public:
     virtual void Put(Product product) = 0;
     virtual std::vector<Product> GetProducts() = 0;
@@ -17,11 +19,11 @@ public:
 
 };
 
-class Lifo:Queue{
+class Lifo:IPackageStockpile{
 
 };
 
-class Fifo:Queue{
+class Fifo:IPackageStockpile{
 
 };
 #endif //SIEC_QUEUE_HPP
