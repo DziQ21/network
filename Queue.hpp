@@ -6,15 +6,15 @@
 #define SIEC_QUEUE_HPP
 #include <array>
 #include <vector>
-#include "Product.hpp"
+#include "Package.hpp"
 
 // Tak wygląda interfejs
 // uzupełnij to zgodnie z tym ale patrz na sam koniec dokumentu ->https://home.agh.edu.pl/~mdig/dokuwiki/doku.php?id=teaching:programming:soft-dev:topics:net-simulation:part_storage
 class IPackageStockpile {
 public:
-    virtual void Put(Product product) = 0;
-    virtual std::vector<Product> GetProducts() = 0;
-    virtual Product GetProduct()=0;
+    virtual void Put(Package product) = 0;
+    virtual std::vector<Package> GetProducts() = 0;
+    virtual Package GetProduct()=0;
 
 
 };
