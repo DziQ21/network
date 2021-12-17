@@ -6,6 +6,7 @@
 #define SIEC_STORAGE_TYPES_HPP
 
 #include "Package.hpp"
+#include <list>
 
 using ElementID = int;
 enum PackageQueueType { LIFO, FIFO };
@@ -18,7 +19,7 @@ public:
     ///iteratory/ //??
     ~IPackageStockPile();
 };
-class IPackageQueue {
+class IPackageQueue: public IPackageStockPile{
 public:
     virtual Package pop() = 0;
     virtual PackageQueueType get_queue_type() = 0 ;
