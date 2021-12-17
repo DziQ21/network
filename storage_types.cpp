@@ -18,17 +18,14 @@ std::size_t PackageQueue::size() {
     return container_.size();
 }
 
-IPackageStockPile::const_iterator PackageQueue::begin() const {
-    return container_.begin();
-}
-
-IPackageStockPile::const_iterator PackageQueue::cbegin() const {
-    return container_.cbegin();
-}
 
 
 
 
 Package PackageQueue::pop() {
-    return Package();
+    if(packageQueueType==LIFO)
+        return container_.pop_front();
+    else if(packageQueueType==FIFO)
+        return container_.pop_back();
+
 }
