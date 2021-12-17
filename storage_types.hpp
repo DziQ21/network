@@ -13,10 +13,9 @@ enum PackageQueueType { LIFO, FIFO };
 
 class IPackageStockPile {
 public:
-    virtual void push(Package&& P) const = 0;
+    virtual void push(Package&& P) = 0;
     virtual bool empty() = 0;
     virtual std::size_t size() = 0;
-    ///iteratory/ //??
     using const_iterator = std::list<Package>::const_iterator;
 
     virtual IPackageStockPile::const_iterator begin() const = 0;
@@ -40,7 +39,7 @@ private:
     std::list<Package> container_;
     PackageQueueType packageQueueType;
 public:
-    void push(Package&& P) const override;
+    void push(Package&& P) override;
     bool empty() override;
     std::size_t size() override;
     Package pop() override;

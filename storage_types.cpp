@@ -2,12 +2,13 @@
 
 
 
-void PackageQueue::push(Package&& P) const {
+void PackageQueue::push(Package&& P) {
+    container_.push_back(P);
 
 }
 
 bool PackageQueue::empty() {
-    return false;
+    return container_.size() == 0;
 }
 
 std::size_t PackageQueue::size() {
@@ -15,11 +16,15 @@ std::size_t PackageQueue::size() {
 }
 
 Package PackageQueue::pop() {
-    if(packageQueueType==LIFO){
-        auto result=std::move(container_.front());
+    if (packageQueueType == LIFO) {
+        auto result = std::move(container_.back());
+        container_.pop_back();
+        return result;
+    }
+    else {
+        auto result = std::move(container_.front());
         container_.pop_front();
-        return result;}
-    else if(packageQueueType==FIFO)
-        return container_.pop_back();
+        return result;
 
+    }
 }
