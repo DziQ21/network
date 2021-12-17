@@ -19,12 +19,12 @@ public:
     ///iteratory/ //??
     using const_iterator = std::list<Package>::const_iterator;
 
-    IPackageStockPile::const_iterator begin() const = 0;
-    IPackageStockPile::const_iterator cbegin() const = 0;
-    IPackageStockPile::const_iterator end() const = 0;
-    IPackageStockPile::const_iterator cend() const = 0;
+    virtual IPackageStockPile::const_iterator begin() const = 0;
+    virtual IPackageStockPile::const_iterator cbegin() const = 0;
+    virtual IPackageStockPile::const_iterator end() const = 0;
+    virtual IPackageStockPile::const_iterator cend() const = 0;
 
-    virtual ~IPackageStockPile(){};
+    virtual ~IPackageStockPile() = default;
 };
 
 
