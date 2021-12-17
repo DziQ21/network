@@ -4,7 +4,6 @@
 
 void PackageQueue::push(Package&& P) {
     container_.push_back(P);
-
 }
 
 bool PackageQueue::empty() {

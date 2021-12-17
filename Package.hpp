@@ -17,7 +17,8 @@ private:
 public:
     Package();
     Package(ElementID id);
-    Package(Package&& P);
+    Package(const Package& P) = default;
+    Package(Package&& P) = default;
     ElementID get_id() const {return ID_;}
     ~Package();
     Package& operator=(Package&&) noexcept = default;

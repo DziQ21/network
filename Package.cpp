@@ -22,16 +22,7 @@ Package::Package() {
 
 
 Package::Package(ElementID id): ID_(id) {
-    //TODO: chyba trzeba sprawdzić, czy wcześniej nie użyliśmy już tego id, ale nie jestem do końca pewien
-    // czy jest to konieczne, bo wczytujemy raczej na początku symulacji gdzie assigned_IDs jest puste
     assigned_IDs.insert(ID_);
-}
-
-Package::Package(Package &&P) {
-
-    ID_ = P.get_id();
-    assigned_IDs.insert(ID_);
-
 }
 
 Package::~Package(){
