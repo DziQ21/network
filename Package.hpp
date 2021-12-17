@@ -20,15 +20,9 @@ public:
     Package(Package&& P);
     ElementID get_id() const {return ID_;}
     ~Package();
-    //TODO: w UML w klasie Package jest ten operator tylko nie wiem czy teraz czy na późniejszych etapach
-    // bo nie wiem jak miałby niby działać. Przypisać nowemu produktowi id starego produktu, po czym usunac stary? troche bez sensu, Michal
     Package& operator=(Package&&) noexcept = default;
 };
 
-//class PackageQueue {
-//public:
-//    PackageQueue(PackageQueueType);
-//};
 
 
 #endif //SIEC_PACKAGE_HPP

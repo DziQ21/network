@@ -45,8 +45,8 @@ public:
     std::size_t size() override;
     Package pop() override;
     PackageQueueType get_queue_type() override {return packageQueueType;};
-    IPackageStockPile::const_iterator begin() const override{return container_.begin();};
-    IPackageStockPile::const_iterator cbegin() const override{return container_.cbegin();};
+    IPackageStockPile::const_iterator begin() const override {return container_.begin();};
+    IPackageStockPile::const_iterator cbegin() const override {return container_.cbegin();};
     IPackageStockPile::const_iterator end() const override {return container_.end();};
     IPackageStockPile::const_iterator cend() const override {return container_.cend();};
 };
