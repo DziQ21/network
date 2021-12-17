@@ -19,10 +19,10 @@ public:
     ///iteratory/ //??
     using const_iterator = std::list<Package>::const_iterator;
 
-    IPackageStockpile::const_iterator begin() const = 0;
-    IPackageStockpile::const_iterator cbegin() const = 0;
-    IPackageStockpile::const_iterator end() const = 0;
-    IPackageStockpile::const_iterator cend() const = 0;
+    IPackageStockPile::const_iterator begin() const = 0;
+    IPackageStockPile::const_iterator cbegin() const = 0;
+    IPackageStockPile::const_iterator end() const = 0;
+    IPackageStockPile::const_iterator cend() const = 0;
 
     virtual ~IPackageStockPile(){};
 };
@@ -37,6 +37,7 @@ public:
 
 class PackageQueue: public IPackageQueue{
 private:
-    std::list<Package> container_
+    std::list<Package> container_;
+
 };
 #endif //SIEC_STORAGE_TYPES_HPP
