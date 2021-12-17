@@ -26,16 +26,17 @@ public:
 
     virtual ~IPackageStockPile(){};
 };
-<<<<<<< HEAD
-class IPackageQueue: public IPackageStockPile{
-=======
+
 
 class IPackageQueue {
->>>>>>> a7872c6457ff6d4275b1dd4ef83748ab4c99b688
 public:
     virtual Package pop() = 0;
     virtual PackageQueueType get_queue_type() = 0 ;
 };
 
 
+class PackageQueue: public IPackageQueue{
+private:
+    std::list<Package> container_
+};
 #endif //SIEC_STORAGE_TYPES_HPP
