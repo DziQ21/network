@@ -4,6 +4,7 @@
 
 #include "Package.hpp"
 
+
 Package::Package() {
     if(!freed_IDs.empty()) {
         ID_ = *freed_IDs.begin(); //przypisuje minimalny element

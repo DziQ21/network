@@ -7,8 +7,8 @@
 
 #include "Package.hpp"
 
-using ElementID = int;
 enum PackageQueueType { LIFO, FIFO };
+
 
 class IPackageStockPile {
 public:
@@ -16,8 +16,16 @@ public:
     virtual bool empty() = 0;
     virtual std::size_t size() = 0;
     ///iteratory/ //??
-    ~IPackageStockPile();
+    using const_iterator = std::list<Package>::const_iterator;
+
+    IPackageStockpile::const_iterator begin() const = 0;
+    IPackageStockpile::const_iterator cbegin() const = 0;
+    IPackageStockpile::const_iterator end() const = 0;
+    IPackageStockpile::const_iterator cend() const = 0;
+
+    virtual ~IPackageStockPile(){};
 };
+
 class IPackageQueue {
 public:
     virtual Package pop() = 0;
