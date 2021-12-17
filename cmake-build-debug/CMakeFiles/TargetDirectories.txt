@@ -1,0 +1,3 @@
+D:/programowanie2/sieci/network/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+D:/programowanie2/sieci/network/cmake-build-debug/CMakeFiles/siec.dir
+D:/programowanie2/sieci/network/cmake-build-debug/CMakeFiles/edit_cache.dir

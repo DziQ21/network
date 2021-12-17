@@ -6,7 +6,7 @@
 #define SIEC_PACKAGE_HPP
 
 #include <set>
-#include "types.hpp"
+#include "storage_types.hpp"
 
 
 class Package {
@@ -23,6 +23,11 @@ public:
     //TODO: w UML w klasie Package jest ten operator tylko nie wiem czy teraz czy na późniejszych etapach
     // bo nie wiem jak miałby niby działać. Przypisać nowemu produktowi id starego produktu, po czym usunac stary? troche bez sensu, Michal
 //    operator=(Package&& P)
+};
+
+class PackageQueue {
+public:
+    PackageQueue(PackageQueueType);
 };
 
 
