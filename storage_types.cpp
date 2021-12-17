@@ -20,8 +20,6 @@ std::size_t PackageQueue::size() {
 
 
 
-
-
 Package PackageQueue::pop() {
     if(packageQueueType==LIFO)
         return container_.pop_front();

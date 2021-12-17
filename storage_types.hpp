@@ -43,7 +43,7 @@ public:
     void push(Package&& P) const override;
     bool empty() override;
     std::size_t size() override;
-    Package pop()override;
+    Package pop() override;
     PackageQueueType get_queue_type() override {return packageQueueType;};
     IPackageStockPile::const_iterator begin() const override{return container_.begin();};
     IPackageStockPile::const_iterator cbegin() const override{return container_.cbegin();};

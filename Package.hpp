@@ -22,7 +22,7 @@ public:
     ~Package();
     //TODO: w UML w klasie Package jest ten operator tylko nie wiem czy teraz czy na późniejszych etapach
     // bo nie wiem jak miałby niby działać. Przypisać nowemu produktowi id starego produktu, po czym usunac stary? troche bez sensu, Michal
-    Package& operator=(Package&& P);
+    Package& operator=(Package&&) noexcept = default;
 };
 
 //class PackageQueue {
