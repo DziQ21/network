@@ -6,7 +6,7 @@
 #define SIEC_PACKAGE_HPP
 
 #include <set>
-#include "storage_types.hpp"
+#include "types.hpp"
 
 
 class Package {
@@ -25,10 +25,10 @@ public:
 //    operator=(Package&& P)
 };
 
-class PackageQueue {
-public:
-    PackageQueue(PackageQueueType);
-};
+//class PackageQueue {
+//public:
+//    PackageQueue(PackageQueueType);
+//};
 
 
 #endif //SIEC_PACKAGE_HPP
