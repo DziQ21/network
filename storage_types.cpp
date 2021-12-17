@@ -2,10 +2,6 @@
 
 
 
-IPackageStockPile::~IPackageStockPile() {
-
-}
-
 void PackageQueue::push(Package&& P) const {
 
 }
@@ -18,11 +14,11 @@ std::size_t PackageQueue::size() {
     return container_.size();
 }
 
-
-
 Package PackageQueue::pop() {
-    if(packageQueueType==LIFO)
-        return container_.pop_front();
+    if(packageQueueType==LIFO){
+        auto result=std::move(container_.front());
+        container_.pop_front();
+        return result;}
     else if(packageQueueType==FIFO)
         return container_.pop_back();
 
