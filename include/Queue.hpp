@@ -6,7 +6,7 @@
 #define SIEC_QUEUE_HPP
 #include <array>
 #include <vector>
-#include "Package.hpp"
+#include "package.hpp"
 
 // Tak wygląda interfejs
 // uzupełnij to zgodnie z tym ale patrz na sam koniec dokumentu ->https://home.agh.edu.pl/~mdig/dokuwiki/doku.php?id=teaching:programming:soft-dev:topics:net-simulation:part_storage
