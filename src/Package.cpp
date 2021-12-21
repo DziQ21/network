@@ -29,8 +29,3 @@ Package::~Package(){
     assigned_IDs.erase(ID_);
     freed_IDs.insert(ID_);
 }
-
-
-//PackageQueue::PackageQueueType(){
-
-//}

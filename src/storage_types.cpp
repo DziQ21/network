@@ -7,7 +7,7 @@ void PackageQueue::push(Package&& P) {
 }
 
 bool PackageQueue::empty() {
-    return container_.size() == 0;
+    return container_.empty();
 }
 
 std::size_t PackageQueue::size() {

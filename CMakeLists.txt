@@ -5,5 +5,15 @@ set(CMAKE_CXX_STANDARD 14)
 
 
 add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion -Wunused-variable)
-add_executable(siec main.cpp Queue.cpp Queue.hpp Package.cpp Package.hpp storage_types.hpp storage_types.cpp
-        types.hpp)
+
+include_directories(include)
+
+set(SOURCE_FILES
+        src/storage_types.cpp
+        src/Package.cpp
+        src/Queue.cpp)
+
+add_executable(siec ${SOURCE_FILES} main.cpp)
+
+#Queue.cpp Queue.hpp Package.cpp Package.hpp storage_types.hpp storage_types.cpp
+#        types.hpp)
