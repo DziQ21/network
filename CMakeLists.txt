@@ -10,7 +10,7 @@ include_directories(include)
 
 set(SOURCE_FILES
         src/storage_types.cpp
-        src/Package.cpp
+        src/package.cpp
         src/Queue.cpp)
 
 add_executable(siec ${SOURCE_FILES} main.cpp)
