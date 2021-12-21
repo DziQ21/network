@@ -8,6 +8,7 @@
 Package::Package() {
     if(!freed_IDs.empty()) {
         ID_ = *freed_IDs.begin(); //przypisuje minimalny element
+        freed_IDs.erase(ID_);
         assigned_IDs.insert(ID_); // aktualizuje assigned
     }
     else if(!assigned_IDs.empty()) {
