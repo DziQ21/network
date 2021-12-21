@@ -25,5 +25,4 @@ public:
 };
 
 
-
 #endif //SIEC_PACKAGE_HPP

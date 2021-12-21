@@ -39,6 +39,7 @@ private:
     std::list<Package> container_;
     PackageQueueType packageQueueType;
 public:
+    PackageQueue(PackageQueueType typ): packageQueueType(typ) {};
     void push(Package&& P) override;
     bool empty() override;
     std::size_t size() override;
