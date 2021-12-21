@@ -1,0 +1,8 @@
+Członkowie grupy:
+(1) Michał Pogorzelec, 407186
+(2) Katarzyna Łuszczewska, 405483
+(3) Paweł Radzik, 405086
+
+Kierownik grupy: Michał Pogorzelec
+
+URL repozytorium: https://github.com/DziQ21/network
