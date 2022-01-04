@@ -28,9 +28,8 @@ public:
 };
 
 class ReceiverPreferences {
-private:
-    unsigned preferences_t;
 public:
+    unsigned int preferences_t;
     ReceiverPreferences(ProbabilityGenerator pg);
     void add_receiver(IPackageReciever* r);
     void remove_receiver(IPackageReciever* r);
@@ -40,9 +39,8 @@ public:
 };
 
 class PackageSender {
-private:
-    unsigned receiver_preferences_(ReceiverPreferences);
 public:
+    unsigned receiver_preferences_(ReceiverPreferences);
     PackageSender(PackageSender&&);
     void send_package(void);
     std::optional<Package&> get_sending_buffer(void); //nie wiem czemu to optional nie działa ._.
