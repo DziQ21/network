@@ -15,4 +15,6 @@ using Time = int;
 using TimeOffset = int;
 using ProbabilityGenerator = std::function<double()>;
 
+
+
 #endif //SIEC_TYPES_HPP

@@ -5,7 +5,7 @@
 #ifndef SIEC_STORAGE_TYPES_HPP
 #define SIEC_STORAGE_TYPES_HPP
 
-#include "package.hpp"
+#include "Package.hpp"
 #include <list>
 
 enum PackageQueueType { LIFO, FIFO };

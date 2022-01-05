@@ -6,20 +6,27 @@
 #define NETWORK_NODES_HPP
 
 #include "types.hpp"
-#include "package.hpp"
+#include "Package.hpp"
 #include "Queue.hpp"
 #include "storage_types.hpp"
+#include <map>
 #include <memory>
 #include <optional>
 
-enum ReceiverType {};
+enum ReceiverType {rampa, robotnik, magazyn};
 
-class IPackageReciever {
-private:
-    ElementID ID_;
+class IPackageReceiver {
 public:
+
     virtual void receive_package(Package &&) = 0;
-    virtual ElementID get_id() const {return ID_;}
+    virtual ElementID get_id() const = 0;
+    virtual ReceiverType get_receiverType() const = 0;
+
+    virtual IPackageStockPile::const_iterator begin() const = 0;
+    virtual IPackageStockPile::const_iterator cbegin() const = 0;
+    virtual IPackageStockPile::const_iterator end() const = 0;
+    virtual IPackageStockPile::const_iterator cend() const = 0;
+
 };
 
 class Storehouse {
@@ -29,13 +36,22 @@ public:
 
 class ReceiverPreferences {
 public:
-    unsigned int preferences_t;
+    using preferences_t = std::map<IPackageReceiver*, double>;
+    using const_iterator = preferences_t::const_iterator;
+
     ReceiverPreferences(ProbabilityGenerator pg);
     void add_receiver(IPackageReciever* r);
     void remove_receiver(IPackageReciever* r);
-    IPackageReciever*(choose_receiver(void));
-    preferences_t&(get_preferences(void));
+    IPackageReciever* choose_receiver();
+    preferences_t& get_preferences() const;
 
+    const_iterator begin() const { return preferences.begin(); }
+    const_iterator cbegin() const { return preferences.cbegin(); }
+    const_iterator end() const { return preferences.end(); }
+    const_iterator cend() const { return preferences.cend(); }
+
+private:
+    preferences_t preferences;
 };
 
 class PackageSender {
@@ -48,20 +64,29 @@ protected:
     void push_package(Package&&);
 };
 
-class Ramp {
+class Ramp : public IPackageReceiver{
+private:
+    ElementID ID_;
+    ReceiverType receiverType_;
 public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
     TimeOffset get_deliver_interval(void);
-    ElementID get_id(void);
+    ElementID get_id() const override {return ID_;};
+    ReceiverType get_receiverType() const override {return receiverType_;}
 };
 
-class Worker {
+class Worker : public IPackageReceiver{
+private:
+    ElementID ID_;
+    ReceiverType receiverType_;
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q); //tu ma być typ void, ale ja daję, to po mnie krzyczy ._.
     void do_work(Time t);
     TimeOffset get_processing_duration(void);
     Time get_package_processing_start_time(void);
+    ElementID get_id() const override {return ID_;};
+    ReceiverType get_receiverType() const override {return receiverType_;}
 };
 
 
