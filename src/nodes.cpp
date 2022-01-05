@@ -11,5 +11,10 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) {
 }
 
 
-preferences_t &ReceiverPreferences::get_preferences() const {return preferences;}
+preferences_t &ReceiverPreferences::get_preferences() const {return preferences_;} //???
+
+void Worker::do_work(Time t) {
+    // zapamiętać kiedy robotnik zaczął przetwarzanie (wartość t), i przy każdym kolejnym t sprawdzać, czy czas przetworzenia
+    //czyli pd_ dobiegł do końca
+}
 

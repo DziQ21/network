@@ -11,8 +11,8 @@
 
 using ElementID = int;
 
-using Time = int;
-using TimeOffset = int;
+using Time = unsigned int;
+using TimeOffset = unsigned int;
 using ProbabilityGenerator = std::function<double()>;
 
 
