@@ -43,6 +43,9 @@ std::optional<Package> &PackageSender::get_sending_buffer() {
 }
 
 void PackageSender::send_package() {
+    if(bufor_){
+        receiver_preferences_.choose_receiver()->receive_package(bufor_->get_id());
+    }
 
 }
 
