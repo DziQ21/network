@@ -9,6 +9,7 @@
 #include "Package.hpp"
 #include "Queue.hpp"
 #include "storage_types.hpp"
+#include "helpers.hpp"
 #include <map>
 #include <memory>
 #include <optional>
