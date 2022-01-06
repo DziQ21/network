@@ -11,10 +11,69 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) {
 }
 
 
-preferences_t &ReceiverPreferences::get_preferences() const {return preferences_;} //???
+preferences_t &ReceiverPreferences::get_preferences() const {
+    return preferences_;
+}
+
+ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg) {
+
+}
+
+void ReceiverPreferences::add_receiver(IPackageReceiver *r) {
+
+    preferences_.emplace(r);
+
+}
+
+void ReceiverPreferences::remove_receiver(IPackageReceiver *r) {
+
+}
+
+IPackageReceiver *ReceiverPreferences::choose_receiver() {
+    return nullptr;
+}
+
+
+void PackageSender::push_package(Package &&p) {
+    bufor_.emplace(p);
+}
+
+std::optional<Package> &PackageSender::get_sending_buffer() {
+    return bufor_;
+}
+
+void PackageSender::send_package() {
+
+}
+
+Ramp::Ramp(ElementID id, TimeOffset di) {
+
+}
+
+void Ramp::deliver_goods(Time t) {
+
+}
+
+TimeOffset Ramp::get_deliver_interval() {
+    return 0;
+}
+
 
 void Worker::do_work(Time t) {
     // zapamiętać kiedy robotnik zaczął przetwarzanie (wartość t), i przy każdym kolejnym t sprawdzać, czy czas przetworzenia
-    //czyli pd_ dobiegł do końca
+    // czyli pd_ dobiegł do końca
+    // wziąć pod uwagę to, że przetwarzany przez 1 turę produkt potem mógł znaleźć się w buforze, i to też trzeba uwzględnić
+}
+
+Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) {
+
+}
+
+TimeOffset Worker::get_processing_duration() {
+    return pd_;
+}
+
+Time Worker::get_package_processing_start_time() {
+    return 0;
 }
 

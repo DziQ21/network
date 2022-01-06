@@ -3,6 +3,15 @@
 #include "storage_types.hpp"
 
 
+//void print_opt(std::optional<int> opt) {
+//    if (opt) {  // sprawdź, czy `opt` zawiera wartość; równoważnie: opt.has_value()
+//        // dostęp do wartości odbywa się jak w przypadku wskaźnika (*p, p->x); równoważnie: opt.value()
+//        std::cout << "opt has a value: " << *opt << std::endl;
+//    } else {
+//        std::cout << "opt is empty" << std::endl;
+//    }
+//}
+
 int main() {
 
     Package p1;
@@ -24,6 +33,18 @@ int main() {
         std::cout << it->get_id() << std::endl;
     }
     std::cout << L1.pop().get_id();
+
+//    std::optional<int> opt = std::nullopt;
+//    print_opt(opt);
+//
+//    opt.emplace(1);  // umieść wartość "w miejscu" (tj. bez wykonywania zbędnej kopii obiektu)
+//    print_opt(opt);
+//
+//    opt = 3;  // umieść wartość za pomocą przypisania
+//    print_opt(opt);
+//
+//    opt.reset();  // usuń wartość
+//    print_opt(opt);
 
     return 0;
 }

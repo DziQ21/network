@@ -40,9 +40,9 @@ public:
     using const_iterator = preferences_t::const_iterator;
 
     ReceiverPreferences(ProbabilityGenerator pg);
-    void add_receiver(IPackageReciever* r);
-    void remove_receiver(IPackageReciever* r);
-    IPackageReciever* choose_receiver();
+    void add_receiver(IPackageReceiver* r);
+    void remove_receiver(IPackageReceiver* r);
+    IPackageReceiver* choose_receiver();
     preferences_t& get_preferences() const;
 
     const_iterator begin() const { return preferences_.begin(); }
@@ -55,13 +55,16 @@ private:
 };
 
 class PackageSender {
+private:
+    std::optional<Package> bufor_ = std::nullopt;
 public:
     ReceiverPreferences receiver_preferences_;
+
     PackageSender(PackageSender&&) = default;
     void send_package();
     std::optional<Package>& get_sending_buffer();
 protected:
-    void push_package(Package&&);
+    void push_package(Package&& p);
 };
 
 class Ramp : public IPackageReceiver, public PackageSender{
@@ -71,7 +74,7 @@ private:
 public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
-    TimeOffset get_deliver_interval(void);
+    TimeOffset get_deliver_interval();
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return receiverType_;}
 };
@@ -82,11 +85,14 @@ private:
     ReceiverType receiverType_;
     std::unique_ptr<IPackageQueue> queue_;
     TimeOffset pd_;
+    std::optional<Package> bufor_ = std::nullopt; // worker też ma mieć bufor ale nie do końca wiem czy tego typu,
+    // bo ten może przechowywać tylko jedną wartość a co w przypadku, gdy byłaby potrzeba odłożenia więcej niż jednego produktu na bok?
+
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
     void do_work(Time t);
-    TimeOffset get_processing_duration(void);
-    Time get_package_processing_start_time(void);
+    TimeOffset get_processing_duration();
+    Time get_package_processing_start_time();
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return receiverType_;}
 };
