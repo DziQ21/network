@@ -19,7 +19,7 @@ enum ReceiverType {WORKER, STOREHOUSE};
 class IPackageReceiver {
 public:
 
-    virtual void receive_package(Package &&) = 0;
+    virtual void receive_package(Package&&) = 0;
     virtual ElementID get_id() const = 0;
     virtual ReceiverType get_receiver_type() const = 0;
 
@@ -27,7 +27,6 @@ public:
     virtual IPackageStockPile::const_iterator cbegin() const = 0;
     virtual IPackageStockPile::const_iterator end() const = 0;
     virtual IPackageStockPile::const_iterator cend() const = 0;
-
 };
 
 class Storehouse : public IPackageReceiver{
