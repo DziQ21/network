@@ -23,6 +23,8 @@ public:
     NodeCollection<Node>::const_iterator find_by_id(ElementID id) const;
     NodeCollection<Node>::const_iterator cbegin() const;
     NodeCollection<Node>::const_iterator cend() const;
+    NodeCollection<Node>::const_iterator find_by_id_cbegin() const;
+    NodeCollection<Node>::const_iterator find_by_id_cend() const;
 
 
 };
