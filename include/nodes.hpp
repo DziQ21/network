@@ -29,9 +29,14 @@ public:
 
 };
 
-class Storehouse {
+class Storehouse : public IPackageReceiver{
+private:
+    ElementID ID_;
+    ReceiverType receiverType_;
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
+    ElementID get_id() const override {return ID_;};
+    ReceiverType get_receiver_type() const override {return receiverType_;}
 };
 
 class ReceiverPreferences {
@@ -67,7 +72,7 @@ protected:
     void push_package(Package&& p);
 };
 
-class Ramp : public IPackageReceiver, public PackageSender{
+class Ramp : public PackageSender{
 private:
     ElementID ID_;
     ReceiverType receiverType_;
@@ -75,8 +80,7 @@ public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
     TimeOffset get_deliver_interval();
-    ElementID get_id() const override {return ID_;};
-    ReceiverType get_receiver_type() const override {return receiverType_;}
+
 };
 
 class Worker : public IPackageReceiver, public PackageSender{
@@ -85,9 +89,7 @@ private:
     ReceiverType receiverType_;
     std::unique_ptr<IPackageQueue> queue_;
     TimeOffset pd_;
-    std::optional<Package> bufor_ = std::nullopt; // worker też ma mieć bufor ale nie do końca wiem czy tego typu,
-    // bo ten może przechowywać tylko jedną wartość a co w przypadku, gdy byłaby potrzeba odłożenia więcej niż jednego produktu na bok?
-
+    std::optional<Package> bufor_ = std::nullopt;
 public:
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
     void do_work(Time t);

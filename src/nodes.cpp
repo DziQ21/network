@@ -65,8 +65,8 @@ void Worker::do_work(Time t) {
     // wziąć pod uwagę to, że przetwarzany przez 1 turę produkt potem mógł znaleźć się w buforze, i to też trzeba uwzględnić
 }
 
-Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q) {
-
+Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): ID_(id), pd_(pd) {
+    queue_ = std::move(q);
 }
 
 TimeOffset Worker::get_processing_duration() {
