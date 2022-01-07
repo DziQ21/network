@@ -12,7 +12,7 @@ Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) {
 
 
 preferences_t &ReceiverPreferences::get_preferences() const {
-    return preferences_;
+    return preferences_; //TODO do poprawy
 }
 
 ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg) {
@@ -21,7 +21,7 @@ ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg) {
 
 void ReceiverPreferences::add_receiver(IPackageReceiver *r) {
 
-    preferences_.emplace(r);
+    preferences_.emplace(r); // TODO do poprawy
 
 }
 
@@ -69,7 +69,7 @@ void Worker::do_work(Time t) {
 }
 
 Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): ID_(id), pd_(pd) {
-    queue_ = std::move(q);
+    queue_ = std::move(q); // TODO nie jestem pewien czy dobrze
 }
 
 TimeOffset Worker::get_processing_duration() {

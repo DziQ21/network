@@ -57,7 +57,7 @@ public:
     NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const;
     NodeCollection<Storehouse>::const_iterator  storehouse_cend() const;
 
-    bool is_considered();
+    bool is_consistent();
     void do_deliveries(Time);
     void do_package_passing();
     void do_work(Time);

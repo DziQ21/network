@@ -32,11 +32,11 @@ public:
 class Storehouse : public IPackageReceiver{
 private:
     ElementID ID_;
-    ReceiverType receiverType_;
+//    ReceiverType receiverType_;
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
     ElementID get_id() const override {return ID_;};
-    ReceiverType get_receiver_type() const override {return receiverType_;}
+    ReceiverType get_receiver_type() const override {return STOREHOUSE;}
 };
 
 class ReceiverPreferences {
@@ -75,7 +75,6 @@ protected:
 class Ramp : public PackageSender{
 private:
     ElementID ID_;
-    ReceiverType receiverType_;
 public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
@@ -86,7 +85,7 @@ public:
 class Worker : public IPackageReceiver, public PackageSender{
 private:
     ElementID ID_;
-    ReceiverType receiverType_;
+//    ReceiverType receiverType_;
     std::unique_ptr<IPackageQueue> queue_;
     TimeOffset pd_;
     std::optional<Package> bufor_ = std::nullopt;
@@ -96,7 +95,7 @@ public:
     TimeOffset get_processing_duration();
     Time get_package_processing_start_time();
     ElementID get_id() const override {return ID_;};
-    ReceiverType get_receiver_type() const override {return receiverType_;}
+    ReceiverType get_receiver_type() const override {return WORKER;}
 };
 
 
