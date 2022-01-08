@@ -39,21 +39,21 @@ public:
     void add_ramp(Ramp&&);
     void remove_ramp(ElementID id);
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return ramp_container.find_by_id(id);};
-    NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const;
+    NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const {return ramp_container.find_by_id(id);};
     NodeCollection<Ramp>::const_iterator ramp_cbegin() const;
     NodeCollection<Ramp>::const_iterator  ramp_cend() const;
 
     void add_worker(Worker&&);
     void remove_worker(ElementID id);
     NodeCollection<Worker>::iterator find_worker_by_id(ElementID id) {return worker_container.find_by_id(id);};
-    NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id) const;
+    NodeCollection<Worker>::const_iterator find_worker_by_id(ElementID id) const {return worker_container.find_by_id(id);};
     NodeCollection<Worker>::const_iterator worker_cbegin() const;
     NodeCollection<Worker>::const_iterator  worker_cend() const;
 
     void add_storehouse(Storehouse&&);
     void remove_storehouse(ElementID id);
     NodeCollection<Storehouse>::iterator find_storehouse_by_id(ElementID id) {return storehouse_container.find_by_id(id);};
-    NodeCollection<Storehouse>::const_iterator find_storehouse_by_id(ElementID id) const;
+    NodeCollection<Storehouse>::const_iterator find_storehouse_by_id(ElementID id) const {return storehouse_container.find_by_id(id);};
     NodeCollection<Storehouse>::const_iterator storehouse_cbegin() const;
     NodeCollection<Storehouse>::const_iterator  storehouse_cend() const;
 
