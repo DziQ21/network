@@ -65,6 +65,7 @@ public:
     void do_package_passing();
     void do_work(Time);
 
+
 };
 
 #endif //NETWORK_FACTORY_HPP
