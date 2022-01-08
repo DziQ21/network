@@ -8,23 +8,26 @@
 #include "nodes.hpp"
 #include <vector>
 
+//hejtu paweł neichktoś pwoe miczy to
+//std::move ejst okej bo ja sam nei wiem i nei mam pojecia co robie
 
 template <class Node>
-
 class NodeCollection {
 public:
-    void add(Node&&(node));
-    void remove_by_id(ElementID id);
-
     using container_t = typename std::vector<Node>;
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t::const_iterator;
-    NodeCollection<Node>::iterator find_by_id(ElementID id);
-    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const;
-    NodeCollection<Node>::const_iterator cbegin() const;
-    NodeCollection<Node>::const_iterator cend() const;
-    NodeCollection<Node>::const_iterator find_by_id_cbegin() const;
-    NodeCollection<Node>::const_iterator find_by_id_cend() const;
+private:
+    container_t container;
+public:
+    void add(Node&& node);
+    void remove_by_id(ElementID id);
+
+
+    NodeCollection<Node>::iterator find_by_id(ElementID id){return container.begin()+id;};
+    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return container.cbegin()+id;};
+    NodeCollection<Node>::const_iterator cbegin() const{return container.cbegin();};
+    NodeCollection<Node>::const_iterator cend() const{return container.cend();};
 
 
 };
@@ -36,12 +39,12 @@ private:
     NodeCollection<Worker> worker_container;
     NodeCollection<Storehouse> storehouse_container;
 public:
-    void add_ramp(Ramp&&);
-    void remove_ramp(ElementID id);
+    void add_ramp(Ramp&& r){ramp_container.add(std::move(r));};
+    void remove_ramp(ElementID id){ramp_container.remove_by_id(id);};
     NodeCollection<Ramp>::iterator find_ramp_by_id(ElementID id) {return ramp_container.find_by_id(id);};
     NodeCollection<Ramp>::const_iterator find_ramp_by_id(ElementID id) const {return ramp_container.find_by_id(id);};
-    NodeCollection<Ramp>::const_iterator ramp_cbegin() const;
-    NodeCollection<Ramp>::const_iterator  ramp_cend() const;
+    NodeCollection<Ramp>::const_iterator ramp_cbegin() const{return ramp_container.cbegin();};
+    NodeCollection<Ramp>::const_iterator  ramp_cend() const{return ramp_container.cend();};
 
     void add_worker(Worker&&);
     void remove_worker(ElementID id);

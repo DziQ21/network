@@ -8,38 +8,17 @@ enum node_color {NONVISITED, VISITED, VERIFIED};
 
 template<class Node>
 void NodeCollection<Node>::add(Node &&node) {
-
+    container.push_back(std::move(node));
 }
 
 template<class Node>
 void NodeCollection<Node>::remove_by_id(ElementID id) {
-
+    container.erase(container.begin()+id);
 }
 
-void Factory::add_ramp(Ramp &&) {
 
-}
 
-void Factory::remove_ramp(ElementID id) {
-
-}
-
-void Factory::add_worker(Worker &&) {
-
-}
-
-void Factory::remove_worker(ElementID id) {
-
-}
-
-void Factory::add_storehouse(Storehouse &&) {
-
-}
-
-void Factory::remove_storehouse(ElementID id) {
-
-}
-
+//zaczynam to pisaćboze broń kudzi przed tym kodem
 bool Factory::is_consistent() {
 
     return true; // dodaj logike
