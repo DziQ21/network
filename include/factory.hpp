@@ -28,7 +28,8 @@ public:
     NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return container.cbegin()+id;};
     NodeCollection<Node>::const_iterator cbegin() const{return container.cbegin();};
     NodeCollection<Node>::const_iterator cend() const{return container.cend();};
-
+    NodeCollection<Node>::iterator begin() const{return container.begin();};
+    NodeCollection<Node>::iterator end() const{return container.end();};
 
 };
 

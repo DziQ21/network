@@ -28,12 +28,12 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
         throw std::logic_error("non defined recivers");
     bool czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego = false;
     auto a=sender->receiver_preferences_.get_preferences();
-    for(auto &i:a){
+    for(auto const &i:a){
         if(i.first->get_receiver_type()==STOREHOUSE){
             czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego = true;
         }else
         {
-            auto worker=(Worker*)i.first;
+            auto worker=(Worker*)i.first;//parkour
             if(sender==worker){
                 continue;
             }else
@@ -72,7 +72,7 @@ bool Factory::is_consistent() {
 }
 
 
-void Factory::do_deliveries(Time) {
+void Factory::do_deliveries(Time t) {
 
 }
 
@@ -81,5 +81,5 @@ void Factory::do_package_passing() {
 }
 
 void Factory::do_work(Time) {
-
+    for(auto &worker : worker_container)
 }
