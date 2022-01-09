@@ -6,6 +6,7 @@
 #define NETWORK_HELPERS_HPP
 
 #include <stdlib.h>
+
 #define ProbabilityGenerator std::function<double()>
 double probability_generator();
 

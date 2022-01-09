@@ -6,30 +6,65 @@
 using preferences_t = std::map<IPackageReceiver*, double>;
 using const_iterator = preferences_t::const_iterator;
 
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d) {
+//TODO: dodać argument domyślny dla d
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d): ID_(id) {
 
 }
 
+void Storehouse::receive_package(Package &&) {
 
-preferences_t &ReceiverPreferences::get_preferences() const {
-    return preferences_; //TODO do poprawy
+    d_->push(Package());
 }
 
+
+preferences_t const& ReceiverPreferences::get_preferences() const {
+    return preferences_;
+}
+
+//TODO: ???
 ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg) {
 
 }
 
 void ReceiverPreferences::add_receiver(IPackageReceiver *r) {
 
-    preferences_.emplace(r); // TODO do poprawy
-
+    preferences_.emplace(r, 1);
+    for (auto elem : preferences_)
+    {
+        elem.second = 1 / (double)(preferences_.size()); // skaluje prawd. wylosowania odbiorcy, na tym etapie każdy będzie miał to samo prawd.
+    }
 }
 
 void ReceiverPreferences::remove_receiver(IPackageReceiver *r) {
 
+    preferences_.erase(r);
+    if (!preferences_.empty())
+    {
+        for (auto elem: preferences_) {
+            elem.second = 1 / (double) (preferences_.size());
+        }
+    }
 }
 
 IPackageReceiver *ReceiverPreferences::choose_receiver() {
+
+    double probability = probability_generator();
+    double left_lim = 0;
+    double right_lim = 0;
+
+    if (!preferences_.empty())
+    {
+        for (auto elem: preferences_)
+        {
+            right_lim += elem.second;
+            if (left_lim < probability <= right_lim)
+            {
+                return elem.first;
+            }
+            else left_lim += elem.second;
+        }
+    }
+
     return nullptr;
 }
 
@@ -38,45 +73,60 @@ void PackageSender::push_package(Package &&p) {
     bufor_.emplace(p);
 }
 
-std::optional<Package> &PackageSender::get_sending_buffer() {
+std::optional<Package> const& PackageSender::get_sending_buffer() const{
     return bufor_;
 }
 
 void PackageSender::send_package() {
     if(bufor_){
         receiver_preferences_.choose_receiver()->receive_package(bufor_->get_id());
+        bufor_.reset();
     }
-
 }
 
-Ramp::Ramp(ElementID id, TimeOffset di) {
 
-}
+Ramp::Ramp(ElementID id, TimeOffset di): ID_(id), di_(di) {}
 
+// TODO zrobić to
 void Ramp::deliver_goods(Time t) {
 
 }
 
-TimeOffset Ramp::get_deliver_interval() {
-    return 0;
+TimeOffset Ramp::get_deliver_interval() const {
+    return di_;
+}
+
+ElementID Ramp::get_id() const {
+    return ID_;
 }
 
 
 void Worker::do_work(Time t) {
-    // zapamiętać kiedy robotnik zaczął przetwarzanie (wartość t), i przy każdym kolejnym t sprawdzać, czy czas przetworzenia
-    // czyli pd_ dobiegł do końca
-    // wziąć pod uwagę to, że przetwarzany przez 1 turę produkt potem mógł znaleźć się w buforze, i to też trzeba uwzględnić
+
+    if(!bufor_ and queue_) // jeśli bufor jest pusty i jest coś w kolejce
+    {
+        bufor_.emplace(queue_->pop()); // wstaw do bufora
+        package_processing_start_time_ = t; // zapamiętaj czas startu przetwarzania
+    }
+    else if(bufor_)
+    {
+        if (t - package_processing_start_time_ == pd_) // jeśli upłynął czas przetwarzania
+        {
+            push_package(Package()); // TODO: push czy send??
+            bufor_.reset();
+        }
+    }
+
 }
 
+//TODO: zrobić ten konstruktor, bo nie wiem czy to wszystko i czy move jest git
 Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): ID_(id), pd_(pd) {
-    queue_ = std::move(q); // TODO nie jestem pewien czy dobrze
+    queue_ = std::move(q);
 }
 
-TimeOffset Worker::get_processing_duration() {
-    return pd_;
-}
+void Worker::receive_package(Package&&) {
 
-Time Worker::get_package_processing_start_time() {
-    return 0;
+    queue_->push(Package());
+
 }
 

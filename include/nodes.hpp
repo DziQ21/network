@@ -29,15 +29,6 @@ public:
     virtual IPackageStockPile::const_iterator cend() const = 0;
 };
 
-class Storehouse : public IPackageReceiver{
-private:
-    ElementID ID_;
-//    ReceiverType receiverType_;
-public:
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d);
-    ElementID get_id() const override {return ID_;};
-    ReceiverType get_receiver_type() const override {return STOREHOUSE;}
-};
 
 class ReceiverPreferences {
 public:
@@ -45,10 +36,11 @@ public:
     using const_iterator = preferences_t::const_iterator;
 
     ReceiverPreferences(ProbabilityGenerator pg);
+    ReceiverPreferences() = default;
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
-    preferences_t& get_preferences() const;
+    preferences_t const& get_preferences() const;
 
     const_iterator begin() const { return preferences_.begin(); }
     const_iterator cbegin() const { return preferences_.cbegin(); }
@@ -59,6 +51,7 @@ private:
     preferences_t preferences_;
 };
 
+
 class PackageSender {
 private:
     std::optional<Package> bufor_ = std::nullopt;
@@ -66,36 +59,54 @@ public:
     ReceiverPreferences receiver_preferences_;
 
     PackageSender(PackageSender&&) = default;
+    PackageSender() = default;
     void send_package();
-    std::optional<Package>& get_sending_buffer();
+    std::optional<Package> const& get_sending_buffer() const;
 protected:
     void push_package(Package&& p);
 };
 
+
 class Ramp : public PackageSender{
 private:
     ElementID ID_;
+    TimeOffset di_;
 public:
     Ramp(ElementID id, TimeOffset di);
     void deliver_goods(Time t);
-    TimeOffset get_deliver_interval();
+    TimeOffset get_deliver_interval() const;
+    ElementID get_id() const;
 
 };
 
 class Worker : public IPackageReceiver, public PackageSender{
 private:
     ElementID ID_;
-//    ReceiverType receiverType_;
     std::unique_ptr<IPackageQueue> queue_;
     TimeOffset pd_;
     std::optional<Package> bufor_ = std::nullopt;
+    Time package_processing_start_time_;
 public:
+
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
+    void receive_package(Package&&) override;
     void do_work(Time t);
-    TimeOffset get_processing_duration();
-    Time get_package_processing_start_time();
+    TimeOffset get_processing_duration() const {return pd_;};
+    Time get_package_processing_start_time() const {return package_processing_start_time_;};
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return WORKER;}
+};
+
+
+class Storehouse : public IPackageReceiver{
+private:
+    ElementID ID_;
+    std::unique_ptr<IPackageStockPile> d_;
+public:
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d); //TODO: argument domyślny dodać dla d
+    void receive_package(Package&&) override;
+    ElementID get_id() const override {return ID_;};
+    ReceiverType get_receiver_type() const override {return STOREHOUSE;}
 };
 
 
