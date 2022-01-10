@@ -6,8 +6,8 @@
 using preferences_t = std::map<IPackageReceiver*, double>;
 using const_iterator = preferences_t::const_iterator;
 
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d): ID_(id) {
-
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d): ID_(id) {
+    d_ = std::move(d);
 }
 
 void Storehouse::receive_package(Package &&)
@@ -27,7 +27,7 @@ ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator &pg): pg_(pg) {}
 void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
     preferences_.emplace(r, 1);
-    for (auto elem : preferences_)
+    for (auto &elem : preferences_)
     {
         elem.second = 1 / (double)(preferences_.size()); // skaluje prawd. wylosowania odbiorcy, na tym etapie każdy będzie miał to samo prawd.
     }
@@ -38,13 +38,13 @@ void ReceiverPreferences::remove_receiver(IPackageReceiver *r)
     preferences_.erase(r);
     if (!preferences_.empty())
     {
-        for (auto elem: preferences_)
+        for (auto &elem: preferences_)
         {
             elem.second = 1 / (double) (preferences_.size());
         }
     }
 }
-
+//
 IPackageReceiver *ReceiverPreferences::choose_receiver()
 {
     double probability = probability_generator();
@@ -53,10 +53,10 @@ IPackageReceiver *ReceiverPreferences::choose_receiver()
 
     if (!preferences_.empty())
     {
-        for (auto elem: preferences_)
+        for (auto &elem: preferences_)
         {
             right_lim += elem.second;
-            if (left_lim < probability <= right_lim)
+            if (left_lim < probability and probability <= right_lim)
             {
                 return elem.first;
             }

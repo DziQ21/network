@@ -16,6 +16,3 @@ set(SOURCE_FILES
         src/nodes.cpp)
 
 add_executable(siec ${SOURCE_FILES} main.cpp)
-
-#Queue.cpp Queue.hpp Package.cpp Package.hpp storage_types.hpp storage_types.cpp
-#        types.hpp)

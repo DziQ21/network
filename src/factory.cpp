@@ -13,19 +13,18 @@ void NodeCollection<Node>::add(Node &&node) {
 
 template<class Node>
 void NodeCollection<Node>::remove_by_id(ElementID id) {
-    container.erase(container.begin()+id);
+    container.erase(find_by_id(id));
 }
 
-
-
-//zaczynam to pisaćboze broń kudzi przed tym kodem/
+void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id) { //:((
+}
 
 bool has_reachable_storehouse(const PackageSender* sender, std::map<const PackageSender*, NodeColor>& node_colors){
     if (node_colors[sender]==VERIFIED)
         return true;
     node_colors[sender]=VISITED;
     if(sender->receiver_preferences_.get_preferences().empty())
-        throw std::logic_error("non defined recivers");
+        throw std::logic_error("non defined receivers");
     bool czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego = false;
     auto a=sender->receiver_preferences_.get_preferences();
     for(auto const &i:a){
@@ -33,7 +32,7 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
             czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego = true;
         }else
         {
-            auto worker=(Worker*)i.first;//parkour
+            auto worker=(Worker*)i.first;
             if(sender==worker){
                 continue;
             }else
@@ -50,20 +49,20 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
     if(czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego){
         return true;
     }
-    throw std::logic_error("nie ma zweryfikwoanego odbiorcy");
+    throw std::logic_error("nie ma zweryfikowanego odbiorcy");
 }
 bool Factory::is_consistent() {
     std::map<const PackageSender*, NodeColor> node_colors;
     for(auto i = ramp_cbegin();i<ramp_cend();i++){
-        node_colors.insert(std::pair<const PackageSender*, NodeColor>((PackageSender*)(&(*i)),NONVISITED)); //i ozbaczył że wksażniki były dobre
+        node_colors.insert(std::pair<const PackageSender*, NodeColor>((PackageSender*)(&(*i)),NONVISITED)); //i odzobaczył że wksażniki były dobre
     }
     for(auto i = worker_cbegin();i<worker_cend();i++){
         node_colors.insert(std::pair<const PackageSender*, NodeColor>((PackageSender*)(&(*i)),NONVISITED));
     }
-      //serio neich ktośzerknie bo jak widze te wskazniki to dziwnie sieczuje~~paweł
+
     try{
         for(auto i = ramp_cbegin();i<ramp_cend();i++){
-            has_reachable_storehouse(&(*i),node_colors);//dobra popełniłem cos trasznego z tymi wskaznikami
+            has_reachable_storehouse(&(*i),node_colors);
         }
     } catch (std::logic_error &e){
         throw e;
@@ -91,4 +90,6 @@ void Factory::do_work(Time t ) {
     for(auto &worker : worker_container)
         worker.do_work(t);
 }
+
+
 

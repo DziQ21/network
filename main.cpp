@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Package.hpp"
 #include "storage_types.hpp"
+#include "nodes.hpp"
 
 
 //void print_opt(std::optional<int> opt) {
@@ -33,6 +34,8 @@ int main() {
         std::cout << it->get_id() << std::endl;
     }
     std::cout << L1.pop().get_id();
+
+    std::vector<Worker> w1;
 
 //    std::optional<int> opt = std::nullopt;
 //    print_opt(opt);
