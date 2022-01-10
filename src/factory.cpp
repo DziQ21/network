@@ -73,13 +73,27 @@ bool Factory::is_consistent() {
 
 
 void Factory::do_deliveries(Time t) {
-
+    for(auto &ramp : ramp_container){
+        ramp.deliver_goods(t);
+    }
 }
 
 void Factory::do_package_passing() {
-
+    for(auto &ramp : ramp_container){
+        ramp.send_package();
+    }
+    for(auto &ramp : worker_container){
+        ramp.send_package();
+    }
 }
 
-void Factory::do_work(Time) {
+void Factory::do_work(Time t ) {
     for(auto &worker : worker_container)
+        worker.do_work(t);
+}
+
+void
+Factory::remove_receiver(__gnu_cxx::__normal_iterator<const Ramp*, std::vector<Ramp, std::allocator<_Tp>>>& collection,
+                         ElementID id) {
+
 }
