@@ -11,7 +11,6 @@ include_directories(include)
 set(SOURCE_FILES
         src/storage_types.cpp
         src/package.cpp
-        src/Queue.cpp
         src/factory.cpp
         src/helpers.cpp
         src/nodes.cpp)
