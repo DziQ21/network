@@ -27,6 +27,7 @@ public:
     virtual IPackageStockPile::const_iterator cbegin() const = 0;
     virtual IPackageStockPile::const_iterator end() const = 0;
     virtual IPackageStockPile::const_iterator cend() const = 0;
+    virtual ~IPackageReceiver() = default;
 };
 
 
@@ -35,7 +36,7 @@ public:
     using preferences_t = std::map<IPackageReceiver*, double>;
     using const_iterator = preferences_t::const_iterator;
 
-    ReceiverPreferences(ProbabilityGenerator pg);
+    ReceiverPreferences(ProbabilityGenerator &pg);
     ReceiverPreferences() = default;
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
@@ -49,6 +50,7 @@ public:
 
 private:
     preferences_t preferences_;
+    ProbabilityGenerator pg_;
 };
 
 

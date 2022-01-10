@@ -21,11 +21,8 @@ preferences_t const& ReceiverPreferences::get_preferences() const
     return preferences_;
 }
 
-//TODO: ???
-ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator pg)
-{
 
-}
+ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator &pg): pg_(pg) {}
 
 void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
@@ -66,7 +63,6 @@ IPackageReceiver *ReceiverPreferences::choose_receiver()
             else left_lim += elem.second;
         }
     }
-
     return nullptr;
 }
 

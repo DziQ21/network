@@ -26,11 +26,11 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
     node_colors[sender]=VISITED;
     if(sender->receiver_preferences_.get_preferences().empty())
         throw std::logic_error("non defined recivers");
-    bool czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego = false;
+    bool czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego = false;
     auto a=sender->receiver_preferences_.get_preferences();
     for(auto const &i:a){
         if(i.first->get_receiver_type()==STOREHOUSE){
-            czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego = true;
+            czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego = true;
         }else
         {
             auto worker=(Worker*)i.first;//parkour
@@ -38,7 +38,7 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
                 continue;
             }else
             {
-                czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego = true;
+                czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego = true;
             }
             if(node_colors[worker]==NONVISITED){
                 has_reachable_storehouse(worker,node_colors);
@@ -47,10 +47,10 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
 
     }
     node_colors[sender]=VERIFIED;
-    if(czy_nadawca_ma_choć_jednego_odbiorcę_innego_niż_siebie_samego){
+    if(czy_nadawca_ma_choc_jednego_odbiorce_innego_niz_siebie_samego){
         return true;
     }
-    throw std::logic_error("niema zweryfikwoanego odbiorcy")
+    throw std::logic_error("nie ma zweryfikwoanego odbiorcy");
 }
 bool Factory::is_consistent() {
     std::map<const PackageSender*, NodeColor> node_colors;
@@ -92,8 +92,3 @@ void Factory::do_work(Time t ) {
         worker.do_work(t);
 }
 
-void
-Factory::remove_receiver(__gnu_cxx::__normal_iterator<const Ramp*, std::vector<Ramp, std::allocator<_Tp>>>& collection,
-                         ElementID id) {
-
-}
