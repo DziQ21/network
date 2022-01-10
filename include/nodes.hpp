@@ -103,7 +103,7 @@ private:
     ElementID ID_;
     std::unique_ptr<IPackageStockPile> d_;
 public:
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d); //TODO: argument domyślny dodać dla d
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<IPackageStockpile>(PackageQueue(FIFO)));
     void receive_package(Package&&) override;
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return STOREHOUSE;}
