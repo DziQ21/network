@@ -17,6 +17,24 @@ void NodeCollection<Node>::remove_by_id(ElementID id) {
 
 }
 
+template<class Node>
+typename std::list<Node>::iterator NodeCollection<Node>::find_by_id(ElementID id) {
+    for(auto i = container.begin();i!=container.end();i++){
+        if((*i).get_id()==id)
+            return i;
+    }
+    return container.begin();
+}
+
+template<class Node>
+typename std::list<Node>::const_iterator NodeCollection<Node>::find_by_id(ElementID id) const {
+    for(auto i = container.cbegin();i!=container.cend();i++){
+        if((*i).get_id()==id)
+            return i;
+    }
+    return container.cbegin();
+}
+
 void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id) { //:((
 }
 

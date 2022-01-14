@@ -19,8 +19,8 @@ private:
     container_t container;
 public:
 
-    NodeCollection<Node>::iterator find_by_id(ElementID id) {return container.begin();};
-    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return container.cbegin();};
+    NodeCollection<Node>::iterator find_by_id(ElementID id);
+    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const;
     NodeCollection<Node>::const_iterator cbegin() const{return container.cbegin();};
     NodeCollection<Node>::const_iterator cend() const{return container.cend();};
     NodeCollection<Node>::iterator begin() {return container.begin();};
