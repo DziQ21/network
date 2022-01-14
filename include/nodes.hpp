@@ -76,7 +76,8 @@ private:
     TimeOffset di_;
 public:
     Ramp(ElementID id, TimeOffset di);
-    Ramp(const Ramp&) = default;
+    //Ramp(const Ramp&) = default;
+    Ramp(Ramp&&) = default;
     void deliver_goods(Time t);
     TimeOffset get_deliver_interval() const;
     ElementID get_id() const;
@@ -96,7 +97,7 @@ private:
 public:
 
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
-    Worker(const Worker&) {};
+    Worker(Worker&&) = default;
 
     void receive_package(Package&&) override;
     void do_work(Time t);
@@ -121,6 +122,7 @@ private:
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d = std::make_unique<PackageQueue>(PackageQueue(FIFO)));
     Storehouse(const Storehouse&) {};
+    Storehouse(Storehouse&&) = default;
     void receive_package(Package&&) override;
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return STOREHOUSE;}

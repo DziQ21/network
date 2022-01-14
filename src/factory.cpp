@@ -13,7 +13,7 @@ void NodeCollection<Node>::add(Node &&node) {
 
 template<class Node>
 void NodeCollection<Node>::remove_by_id(ElementID id) {
-    //container.erase(find_by_id(id));
+    container.erase(find_by_id(id));
 
 }
 
@@ -54,15 +54,15 @@ bool has_reachable_storehouse(const PackageSender* sender, std::map<const Packag
 }
 bool Factory::is_consistent() {
     std::map<const PackageSender*, NodeColor> node_colors;
-    for(auto i = ramp_cbegin();i<ramp_cend();i++){
+    for(auto i = ramp_cbegin();i!=ramp_cend();i++){
         node_colors.insert(std::pair<const PackageSender*, NodeColor>((PackageSender*)(&(*i)),NONVISITED)); //i odzobaczył że wksażniki były dobre
     }
-    for(auto i = worker_cbegin();i<worker_cend();i++){
+    for(auto i = worker_cbegin();i!=worker_cend();i++){
         node_colors.insert(std::pair<const PackageSender*, NodeColor>((PackageSender*)(&(*i)),NONVISITED));
     }
 
     try{
-        for(auto i = ramp_cbegin();i<ramp_cend();i++){
+        for(auto i = ramp_cbegin();i!=ramp_cend();i++){
             has_reachable_storehouse(&(*i),node_colors);
         }
     } catch (std::logic_error &e){

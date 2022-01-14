@@ -6,21 +6,21 @@
 #define NETWORK_FACTORY_HPP
 #include "storage_types.hpp"
 #include "nodes.hpp"
-#include <vector>
+#include <list>
 
 
 template <class Node>
 class NodeCollection {
 public:
-    using container_t = typename std::vector<Node>;
+    using container_t = typename std::list<Node>;
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t::const_iterator;
 private:
     container_t container;
 public:
 
-    NodeCollection<Node>::iterator find_by_id(ElementID id) {return container.begin()+id;};
-    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return container.cbegin()+id;};
+    NodeCollection<Node>::iterator find_by_id(ElementID id) {return container.begin();};
+    NodeCollection<Node>::const_iterator find_by_id(ElementID id) const{return container.cbegin();};
     NodeCollection<Node>::const_iterator cbegin() const{return container.cbegin();};
     NodeCollection<Node>::const_iterator cend() const{return container.cend();};
     NodeCollection<Node>::iterator begin() {return container.begin();};
