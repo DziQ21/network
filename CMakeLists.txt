@@ -4,7 +4,7 @@ project(siec)
 set(CMAKE_CXX_STANDARD 17)
 
 
-add_compile_options(-Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wconversion -Wunused-variable)
+add_compile_options(-Wall -Wextra -Wpedantic -pedantic-errors -Wconversion)
 
 include_directories(include)
 

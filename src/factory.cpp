@@ -13,7 +13,8 @@ void NodeCollection<Node>::add(Node &&node) {
 
 template<class Node>
 void NodeCollection<Node>::remove_by_id(ElementID id) {
-    container.erase(find_by_id(id));
+    //container.erase(find_by_id(id));
+
 }
 
 void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id) { //:((

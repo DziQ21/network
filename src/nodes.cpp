@@ -69,7 +69,7 @@ IPackageReceiver *ReceiverPreferences::choose_receiver()
 
 void PackageSender::push_package(Package &&p)
 {
-    bufor_.emplace(p);
+    bufor_.emplace(std::move(p));
 }
 
 std::optional<Package> const& PackageSender::get_sending_buffer() const
@@ -114,17 +114,17 @@ ElementID Ramp::get_id() const
 
 void Worker::do_work(Time t)
 {
-    if(!bufor_ and queue_) // jeśli bufor jest pusty i jest coś w kolejce
+    if(!bufor_przetwarzanych_ and queue_) // jeśli bufor jest pusty i jest coś w kolejce
     {
-        bufor_.emplace(queue_->pop()); // wstaw do bufora
+        bufor_przetwarzanych_.emplace(queue_->pop()); // wstaw do bufora
         package_processing_start_time_ = t; // zapamiętaj czas startu przetwarzania
     }
-    else if(bufor_)
+    else if(bufor_przetwarzanych_)
     {
         if (t - package_processing_start_time_ == pd_) // jeśli upłynął czas przetwarzania
         {
             push_package(Package());
-            bufor_.reset();
+            bufor_przetwarzanych_.reset();
         }
     }
 }

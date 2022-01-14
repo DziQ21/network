@@ -81,7 +81,7 @@ public:
     TimeOffset get_deliver_interval() const;
     ElementID get_id() const;
 
-    ~Ramp() = default;
+    ~Ramp() { };
 
 };
 
@@ -90,12 +90,14 @@ private:
     ElementID ID_;
     std::unique_ptr<IPackageQueue> queue_;
     TimeOffset pd_;
-    std::optional<Package> bufor_ = std::nullopt;
+    std::optional<Package> bufor_przetwarzanych_ = std::nullopt;
     Time package_processing_start_time_;
+
 public:
 
     Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
-//    Worker(const Worker&) = default;
+    Worker(const Worker&) {};
+
     void receive_package(Package&&) override;
     void do_work(Time t);
     TimeOffset get_processing_duration() const {return pd_;};
@@ -108,7 +110,7 @@ public:
     IPackageStockPile::iterator end() override {return queue_->end();};
     IPackageStockPile::const_iterator cend() const override {return queue_->cend();};
 
-    ~Worker() = default;
+    ~Worker() { } ;
 };
 
 
@@ -118,7 +120,7 @@ private:
     std::unique_ptr<IPackageStockPile> d_;
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d = std::make_unique<PackageQueue>(PackageQueue(FIFO)));
-//    Storehouse(const Storehouse&) = default;
+    Storehouse(const Storehouse&) {};
     void receive_package(Package&&) override;
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return STOREHOUSE;}
@@ -128,7 +130,7 @@ public:
     IPackageStockPile::iterator end() override {return d_->end();};
     IPackageStockPile::const_iterator cend() const override {return d_->cend();};
 
-    ~Storehouse() = default;
+    ~Storehouse() { } ;
 };
 
 
