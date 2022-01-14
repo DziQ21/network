@@ -12,6 +12,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <utility>
 
 enum ReceiverType {WORKER, STOREHOUSE};
 
@@ -36,7 +37,7 @@ public:
     using const_iterator = preferences_t::const_iterator;
     using iterator = preferences_t::iterator;
 
-    ReceiverPreferences(ProbabilityGenerator &pg);
+    ReceiverPreferences(ProbabilityGenerator pg = probability_generator): pg_(std::move(pg)) {}
     ReceiverPreferences() = default;
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
@@ -48,6 +49,7 @@ public:
     iterator end() { return preferences_.end(); }
     const_iterator cend() const { return preferences_.cend(); }
 
+    ~ReceiverPreferences() = default;
 private:
     preferences_t preferences_;
     ProbabilityGenerator pg_;
@@ -60,11 +62,14 @@ private:
 public:
     ReceiverPreferences receiver_preferences_;
 
-    PackageSender(PackageSender&&) = default;
+    PackageSender(ReceiverPreferences&& rec_pref): receiver_preferences_(std::move(rec_pref)) {}
+    PackageSender(): receiver_preferences_(probability_generator) {}
     PackageSender(const PackageSender&) = default;
-    PackageSender() = default;
+    PackageSender(PackageSender&& sender) = default;
     void send_package();
     std::optional<Package> const& get_sending_buffer() const;
+    ~PackageSender() = default;
+
 protected:
     void push_package(Package&& p);
 };
@@ -75,15 +80,14 @@ private:
     ElementID ID_;
     TimeOffset di_;
 public:
-    Ramp(ElementID id, TimeOffset di);
+    Ramp(PackageSender &&sender, ElementID id, TimeOffset di): PackageSender(std::move(sender)), ID_(id), di_(di) {};
     //Ramp(const Ramp&) = default;
     Ramp(Ramp&&) = default;
     void deliver_goods(Time t);
-    TimeOffset get_deliver_interval() const;
-    ElementID get_id() const;
+    TimeOffset get_deliver_interval() const {return di_;};
+    ElementID get_id() const {return ID_;}
 
-    ~Ramp() { };
-
+    ~Ramp() = default;
 };
 
 class Worker : public IPackageReceiver, public PackageSender{
@@ -95,8 +99,7 @@ private:
     Time package_processing_start_time_;
 
 public:
-
-    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
+    Worker(PackageSender &&sender, ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
     Worker(Worker&&) = default;
 
     void receive_package(Package&&) override;
@@ -111,7 +114,7 @@ public:
     IPackageStockPile::iterator end() override {return queue_->end();};
     IPackageStockPile::const_iterator cend() const override {return queue_->cend();};
 
-    ~Worker() { } ;
+    ~Worker() = default;
 };
 
 
@@ -121,7 +124,7 @@ private:
     std::unique_ptr<IPackageStockPile> d_;
 public:
     Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d = std::make_unique<PackageQueue>(PackageQueue(FIFO)));
-    Storehouse(const Storehouse&) {};
+    Storehouse(const Storehouse&) = default;
     Storehouse(Storehouse&&) = default;
     void receive_package(Package&&) override;
     ElementID get_id() const override {return ID_;};
@@ -132,7 +135,7 @@ public:
     IPackageStockPile::iterator end() override {return d_->end();};
     IPackageStockPile::const_iterator cend() const override {return d_->cend();};
 
-    ~Storehouse() { } ;
+    ~Storehouse() = default;
 };
 
 

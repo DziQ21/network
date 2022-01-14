@@ -6,13 +6,11 @@
 using preferences_t = std::map<IPackageReceiver*, double>;
 using const_iterator = preferences_t::const_iterator;
 
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d): ID_(id) {
-    d_ = std::move(d);
-}
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d): ID_(id), d_(std::move(d)) {}
 
-void Storehouse::receive_package(Package &&)
+void Storehouse::receive_package(Package &&p)
 {
-    d_->push(Package());
+    d_->push(std::move(p));
 }
 
 
@@ -22,7 +20,6 @@ preferences_t const& ReceiverPreferences::get_preferences() const
 }
 
 
-ReceiverPreferences::ReceiverPreferences(ProbabilityGenerator &pg): pg_(pg) {}
 
 void ReceiverPreferences::add_receiver(IPackageReceiver *r)
 {
@@ -87,7 +84,6 @@ void PackageSender::send_package()
 }
 
 
-Ramp::Ramp(ElementID id, TimeOffset di): ID_(id), di_(di) {}
 
 void Ramp::deliver_goods(Time t)
 {
@@ -101,15 +97,6 @@ void Ramp::deliver_goods(Time t)
     }
 }
 
-TimeOffset Ramp::get_deliver_interval() const
-{
-    return di_;
-}
-
-ElementID Ramp::get_id() const
-{
-    return ID_;
-}
 
 
 void Worker::do_work(Time t)
@@ -129,13 +116,10 @@ void Worker::do_work(Time t)
     }
 }
 
-Worker::Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): ID_(id), pd_(pd)
-{
-    queue_ = std::move(q);
-}
+Worker::Worker(PackageSender &&sender, ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): PackageSender(std::move(sender)), ID_(id), queue_(std::move(q)), pd_(pd) {}
 
-void Worker::receive_package(Package&&)
+void Worker::receive_package(Package&& p)
 {
-    queue_->push(Package());
+    queue_->push(std::move(p));
 }
 
