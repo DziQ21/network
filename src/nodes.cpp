@@ -6,7 +6,7 @@
 using preferences_t = std::map<IPackageReceiver*, double>;
 using const_iterator = preferences_t::const_iterator;
 
-Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d): ID_(id), d_(std::move(d)) {}
+Storehouse::Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d): ID_(id), d_(std::move(d)) {}
 
 void Storehouse::receive_package(Package &&p)
 {
@@ -116,7 +116,6 @@ void Worker::do_work(Time t)
     }
 }
 
-Worker::Worker(PackageSender &&sender, ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): PackageSender(std::move(sender)), ID_(id), queue_(std::move(q)), pd_(pd) {}
 
 void Worker::receive_package(Package&& p)
 {

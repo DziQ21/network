@@ -35,8 +35,8 @@ typename std::list<Node>::const_iterator NodeCollection<Node>::find_by_id(Elemen
     return container.cbegin();
 }
 
-void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id) { //:((
-}
+//void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id) { //:((
+//}
 
 bool has_reachable_storehouse(const PackageSender* sender, std::map<const PackageSender*, NodeColor>& node_colors){
     if (node_colors[sender]==VERIFIED)

@@ -33,7 +33,6 @@ public:
 
 class Factory {
 private:
-    void remove_receiver(NodeCollection<Ramp>::const_iterator& collection, ElementID id);
     NodeCollection<Ramp> ramp_container;
     NodeCollection<Worker> worker_container;
     NodeCollection<Storehouse> storehouse_container;

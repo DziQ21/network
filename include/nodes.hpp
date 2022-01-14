@@ -6,7 +6,7 @@
 #define NETWORK_NODES_HPP
 
 #include "types.hpp"
-#include "Package.hpp"
+#include "package.hpp"
 #include "storage_types.hpp"
 #include "helpers.hpp"
 #include <map>
@@ -23,10 +23,10 @@ public:
     virtual ElementID get_id() const = 0;
     virtual ReceiverType get_receiver_type() const = 0;
 
-    virtual IPackageStockPile::iterator begin() = 0;
-    virtual IPackageStockPile::const_iterator cbegin() const = 0;
-    virtual IPackageStockPile::iterator end() = 0;
-    virtual IPackageStockPile::const_iterator cend() const = 0;
+    virtual IPackageStockpile::const_iterator begin() const = 0;
+    virtual IPackageStockpile::const_iterator cbegin() const = 0;
+    virtual IPackageStockpile::const_iterator end() const = 0;
+    virtual IPackageStockpile::const_iterator cend() const = 0;
     virtual ~IPackageReceiver() = default;
 };
 
@@ -38,7 +38,6 @@ public:
     using iterator = preferences_t::iterator;
 
     ReceiverPreferences(ProbabilityGenerator pg = probability_generator): pg_(std::move(pg)) {}
-    ReceiverPreferences() = default;
     void add_receiver(IPackageReceiver* r);
     void remove_receiver(IPackageReceiver* r);
     IPackageReceiver* choose_receiver();
@@ -62,7 +61,6 @@ private:
 public:
     ReceiverPreferences receiver_preferences_;
 
-    PackageSender(ReceiverPreferences&& rec_pref): receiver_preferences_(std::move(rec_pref)) {}
     PackageSender(): receiver_preferences_(probability_generator) {}
     PackageSender(const PackageSender&) = default;
     PackageSender(PackageSender&& sender) = default;
@@ -71,7 +69,7 @@ public:
     ~PackageSender() = default;
 
 protected:
-    void push_package(Package&& p);
+    virtual void push_package(Package&& p);
 };
 
 
@@ -80,7 +78,7 @@ private:
     ElementID ID_;
     TimeOffset di_;
 public:
-    Ramp(PackageSender &&sender, ElementID id, TimeOffset di): PackageSender(std::move(sender)), ID_(id), di_(di) {};
+    Ramp(ElementID id, TimeOffset di): PackageSender(), ID_(id), di_(di) {};
     //Ramp(const Ramp&) = default;
     Ramp(Ramp&&) = default;
     void deliver_goods(Time t);
@@ -99,7 +97,7 @@ private:
     Time package_processing_start_time_;
 
 public:
-    Worker(PackageSender &&sender, ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q);
+    Worker(ElementID id, TimeOffset pd, std::unique_ptr<IPackageQueue> q): PackageSender(), ID_(id), queue_(std::move(q)), pd_(pd) {}
     Worker(Worker&&) = default;
 
     void receive_package(Package&&) override;
@@ -109,10 +107,10 @@ public:
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return WORKER;}
 
-    IPackageStockPile::iterator begin() override {return queue_->begin();};
-    IPackageStockPile::const_iterator cbegin() const override {return queue_->cbegin();};
-    IPackageStockPile::iterator end() override {return queue_->end();};
-    IPackageStockPile::const_iterator cend() const override {return queue_->cend();};
+    IPackageStockpile::const_iterator begin() const override {return queue_->begin();};
+    IPackageStockpile::const_iterator cbegin() const override {return queue_->cbegin();};
+    IPackageStockpile::const_iterator end() const override {return queue_->end();};
+    IPackageStockpile::const_iterator cend() const override {return queue_->cend();};
 
     ~Worker() = default;
 };
@@ -121,19 +119,19 @@ public:
 class Storehouse : public IPackageReceiver{
 private:
     ElementID ID_;
-    std::unique_ptr<IPackageStockPile> d_;
+    std::unique_ptr<IPackageStockpile> d_;
 public:
-    Storehouse(ElementID id, std::unique_ptr<IPackageStockPile> d = std::make_unique<PackageQueue>(PackageQueue(FIFO)));
-    Storehouse(const Storehouse&) = default;
+    Storehouse(ElementID id, std::unique_ptr<IPackageStockpile> d = std::make_unique<PackageQueue>(PackageQueue(FIFO)));
+//    Storehouse(const Storehouse&) = default;
     Storehouse(Storehouse&&) = default;
     void receive_package(Package&&) override;
     ElementID get_id() const override {return ID_;};
     ReceiverType get_receiver_type() const override {return STOREHOUSE;}
 
-    IPackageStockPile::iterator begin() override {return d_->begin();};
-    IPackageStockPile::const_iterator cbegin() const override {return d_->cbegin();};
-    IPackageStockPile::iterator end() override {return d_->end();};
-    IPackageStockPile::const_iterator cend() const override {return d_->cend();};
+    IPackageStockpile::const_iterator begin() const override {return d_->begin();};
+    IPackageStockpile::const_iterator cbegin() const override {return d_->cbegin();};
+    IPackageStockpile::const_iterator end() const override {return d_->end();};
+    IPackageStockpile::const_iterator cend() const override {return d_->cend();};
 
     ~Storehouse() = default;
 };
